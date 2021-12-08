@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Zadanie_5__1_
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        static float func(float x)
+        {
+            try
+            {
+                //если х не попадает в область определения, то генерируется исключение
+                if (x == -1)
+                    throw new Exception();
+                else
+                    return (3 * x + 4) / (float)(Math.Sqrt(x * x + 2 * x + 1));
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+
+                string text_box1 = textBox1.Text;
+                string text_box2 = textBox2.Text;
+                string text_box3 = textBox3.Text;
+
+            try
+            {
+                float a = float.Parse(text_box1);
+                float b = float.Parse(text_box2);
+                float h = float.Parse(text_box3);
+
+                if (a < b)
+                {
+                    for (float i = a; i <= b; i += h)
+                    {
+                        try
+                        {
+                            textBox4.Text += ($"y= f({i}) = {func(i)}").ToString() + "\r\n";
+                        }
+                        catch
+                        {
+                            textBox4.Text += ($"y= f({i}) = error").ToString() + "\r\n";
+                        }
+                    }
+                }
+                else
+                    textBox4.Text = ("Введен некорректный диапазон");
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Неверный формат ввода данных");
+            }
+            catch
+            {
+                MessageBox.Show("Неизвестная ошибка");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox4.Text = null;
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            //прокрутка окна с ответами
+            textBox4.ScrollBars = ScrollBars.Vertical; //Добавил вертикальные полосы прокрутки в элемент управления текстовым полем.
+        }
+    }
+}
